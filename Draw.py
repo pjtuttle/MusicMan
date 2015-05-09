@@ -4,6 +4,32 @@ import pygame
 GROUND = 300
 WHITE = (255,255,255)
 
+
+    #--Song Groups------------------------------------------------
+bounceSongs = ['Bouncy1.wav', 'Bouncy2.wav', 'Bouncy3.wav']    #Holds each characters songs
+eyeSongs = ['EyeWalker1.wav', 'EyeWalker2.wav', 'EyeWalker3.wav']   #Holds each characters songs
+walkerSongs = ['Walker1.wav', 'Walker2.wav', 'Walker3.wav']   #Holds each characters songs
+    
+
+    #--Sound Effect Groups------------------------------------
+sound_Effects = ['Bird squark2.wav', 'CAT03.wav', 'Comic mosquito.wav', 'Humanoid.wav', 'Move1.wav', 'Move2.wav',
+                 'Slurp1.wav', 'Slurp2.wav', 'SPLODGE.WAV', 'Time Machine loop2.wav', 'WHOOSH08.wav',
+                 'Zingle.wav']
+
+    #---Sound Controls-------------------------------
+currently_playing_sound = None
+
+def play_sound():
+    global currently_playing_sound, sound_Effects
+    next_sound = random.choice(sound_Effects)
+    while next_sound == currently_playing_sound:
+        next_song = random.choice(sound_Effects)
+    currently_playing_sound = next_sound
+    pygame.mixer.music.load(next_sound)
+    pygame.mixer.music.play()
+    if pygame.mixer.music.get_busy() == False:
+        pygame.mixer.music.stop()
+    
 class Player(object):
 
     def __init__(self): #Constructor
@@ -17,7 +43,7 @@ class Player(object):
         self.walk = 12 # Controls how fast animation loops
         self.isJump = False #Controls Jump algorithm
         self.stable = False
-
+        
     def isPlatform(self, collision):
         #Collion: multidimentional [3][x,y,width]
         if((self.y + self.height) == collision[0][1]):
@@ -53,6 +79,11 @@ class Player(object):
             
         if ((self.isJump == False and self.y != GROUND) and not (self.stable)): #Bring player to the ground
             self.y += 2
+
+        #---Sound Effects----------------------
+
+        if (keys[pygame.K_q]):
+            play_sound()
                 
     def draw(self, surface):
         surface.blit(self.image, (self.x, self.y)) #draws player to screen

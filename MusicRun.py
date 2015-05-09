@@ -23,6 +23,7 @@ mod = 0
 def main():
     
     pygame.init()# Initialize the game engine
+    pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096) #Initialize the music mixer
 
     size = (700, 500)   #Window Size
     screen = pygame.display.set_mode(size)  #Window Creation
@@ -45,11 +46,8 @@ def main():
     
     mod = [0] #determines how fast scenery moves
 
-    #pygame.mixer.music.load('A Wish.ogg')   #Loads song into pygame
-    #pygame.mixer.music.set_endevent(pygame.constants.USEREVENT)     #A trigger event for when song ends
-    #pygame.mixer.music.play(50) #!?!?Not a permenent solution for infinite loop!?!?    
 
-    #jump_sound = pygame.mixer.Sound("spin_jump.wav") #Jump Sound
+    #---Image Import-----------------------------------
 
     floor_1 = pygame.image.load("Grass.png").convert()  #loads Grass Platform
     floor_2 = pygame.image.load("Grass.png").convert()  #loads Grass Platform
@@ -111,6 +109,10 @@ def main():
         #---Updates the screen with what we've drawn----
 
         pygame.display.flip()
+
+        #---Sound----------------------------------
+        
+        play_sound() #---This will play a random sound 
         
         #---Limit to 60 frames per second---------------
 
